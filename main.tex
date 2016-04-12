@@ -1,0 +1,42 @@
+\documentclass[spanish]{udpreport}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{textcomp}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+
+% Podemos establecer el logo de alguna entidad o dejar el de la UDP (defecto)
+%\setlogo{EITFI}
+
+
+\begin{document}
+\title{
+	Creación de paquetes utilizando Scapy y validación con Wireshark\\[2ex]
+	\normalsize
+	Laboratorio N°3, Redes de Datos\\
+    Profesor: Jaime Álvarez\\
+	Ayudante: Maximiliano Vega
+    }
+\author{John Bidwell Boitano\\ Diego Aguilera Morán \\ Valentín Morales Albornoz \\ Yerson Sarria Quiroz}
+\email{john.bidwell@mail.udp.cl\\diego.aguileramo@mail.udp.cl\\valentin.morales@mail.udp.cl\\yerson.sarria@mail.udp.cl}
+\date{14 de abril de 2016}
+\maketitle
+
+\tableofcontents
+
+\chapter{Introducción}
+En este laboratorio analisaremos el flujo de paquetes en una red, diferenciando entre los paquetes que fluyen en esta.
+Ademas de analisar estos paquetes podremos crear paquetes personalizados usando el software Scapy, pero antes de esto debemos saber como desglosar un paquete por capas y entender el funcionamiento de cada capa.
+\chapter{Cuestionario}
+\begin{enumerate}
+
+\item¿Qué  pasa  cuando  envió  un  paquete  a  la  dirección  FF:FF:FF:FF:FF:FF?  ¿Quienes 
+lo reciben? ¿Por qué?
+
+\item¿Qué  pasa  cuando  envió  un  paquete  a  una  MAC  de  otro  equipo?  ¿Quieres  lo pueden reciben? ¿Por qué?
+
+\item¿Qué  sucede  si  envía  un  paquete  a  una  MAC  que  no  corresponda  a  ningún  equipo de la red? ¿Quienes lo pueden recepcionar? ¿Por qué?
+
+\end{enumerate}
+
+\end{document}
