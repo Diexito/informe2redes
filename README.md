@@ -2,7 +2,7 @@
 
 Tras tener instalado Git en su computadora, el primer paso será clonar el respositorio Git de nuestro documento en Overleaf:
 
-(`git clone https://git.overleaf.com/4731737zbxgtt`)
+(`git clone https://git.overleaf.com/4864807fkvwbb`)
 
 Luego renombramos el origen:
 
@@ -14,7 +14,7 @@ Cuando queramos bajar los cambios de Overleaf a nuestro PC usamos:
 
 Ahora tenemos que vincular nuestro documentos a Github
 
-(`git remote add github https://github.com/JohnBidwellB/Redes-de-datos.git`)
+(`git remote add github git@github.com:JohnBidwellB/informe2redes.git`)
 
 Y subimos todo a Github
 
