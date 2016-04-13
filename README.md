@@ -1,3 +1,40 @@
+# Sincronización entre Overleaf y Github 
+
+Tras tener instalado Git en su computadora, el primer paso será clonar el respositorio Git de nuestro documento en Overleaf:
+
+(`git clone https://git.overleaf.com/4731737zbxgtt`)
+
+Luego renombramos el origen:
+
+(`git remote rename origin overleaf`)
+
+Cuando queramos bajar los cambios de Overleaf a nuestro PC usamos:
+
+(`git pull overleaf master`)
+
+Ahora tenemos que vincular nuestro documentos a Github
+
+(`git remote add github https://github.com/JohnBidwellB/Redes-de-datos.git`)
+
+Y subimos todo a Github
+
+(`git push github`)
+
+# Comandos a utilizar mientras trabajemos
+
+Para bajar los cambios del documentos en Overleaf
+(`git pull overleaf master`)
+
+Hacer el commit (Ponerle un nombre a la serie de cambios realizados)
+(`git commit -a -m "Agún nombre a ponerle al commit"`)
+
+Y subir los cambios Github
+
+(`git push github`)
+
+
+Eso es todo amigos
+
 # Introducción
 
 Clases de LaTeX para generar artículos y programas de curso personalizados de una forma sencilla que puede incluir el logo y un encabezado de la UDP. 
