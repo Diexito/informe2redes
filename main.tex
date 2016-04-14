@@ -25,8 +25,99 @@
 \tableofcontents
 
 \chapter{Introducción}
-En este laboratorio analisaremos el flujo de paquetes en una red, diferenciando entre los paquetes que fluyen en esta.
-Ademas de analisar estos paquetes podremos crear paquetes personalizados usando el software Scapy, pero antes de esto debemos saber como desglosar un paquete por capas y entender el funcionamiento de cada capa.
+Si bien a estas alturas, en la actualidad del contexto informático que nos encontramos, la cantidad de datos y también el tamaño de paquetes que hay intercambiándose entre PC's, internet, servidores, etc. es abismal; esta experiencia en laboratorio nos ayudará a conocer uno de los niveles más básicos de comunicación entre dispositivos, trabajando en unas de las capas de protocolo OSI más bajas (capa de enlace, capa de red y capa de transporte) para poder distribuir un par de bits de información en la red local que nos encontraremos.
+
+Así, pues, el desarrollo de la experiencia en laboratorio en resumidas cuentas será crear paquetes personalizados usando el software Scapy, pero antes de esto debemos saber como desglosar un paquete por capas y entender el funcionamiento de cada capa para finalmente identificar el paquete capturado y su contenido con el software llamado Wireshark.
+
+Es de suma utilidad manejar de óptima manera el nivel de conocimiento que esta actividad nos otorgará, ya que, aparte de lo anteriormente mencionado vienen los usos "secundarios" de saber hacer lo que aprendimos, lo más importante tener presente que lo que hacemos puede tener malas intenciones y esto es suplantar identidades gracias a la funcionalidad de poder modificar a gusto los componentes identificadores de un equipo (dirección MAC e IP) y así, provocar la transferencia de datos simulando ser otro equipo perteneciente a otra persona (copiando sus direcciones) o bien dejarlo en el anonimato (inventar direcciones y luego volver a las anteriores, por ejemplo), entre otros. Por lo tanto más allá de transferir paquetes dentro de nuestra red nos quedará la enseñanza de lo que se puede lograr con estas herramientas.
+
+\chapter{Software necesario}
+\par Para la realización de este laboratorio es necesario disponer de ciertos programas que nos permitan realizar las tareas requeridas, estos son Scapy y Wireshark.
+\par Scapy es un programa interactivo de manipulación de paquetes, permite crear y desglosar paquetes de un gran numero de protocolos, enviarlos, capturarlos, y mucho
+más.
+\par Puede realizar fácilmente cualquier tarea clásica como escanear, trazar rutas y probar ataques comunes. También crear paquetes inválidos o incompletos y enviarlos.
+\par La gracia de Scapy que permite realizar rutinas de paquetes ya que está hecho en
+Python, programar métodos, clases o funciones para un programa de red es muy fácil.
+\par Wireshark es un analizador de protocolos utilizado para realizar análisis y solucionar problemas en redes de comunicaciones, para desarrollo de software y protocolos, y como una herramienta didáctica. Cuenta con todas las características estándar de un analizador de protocolos de forma únicamente hueca.
+\par A través de su interfaz gráfica permite ver todo el tráfico que pasa a través de una red (usualmente una red Ethernet, aunque es compatible con algunas otras) estableciendo la configuración en modo promiscuo. 
+\par Permite examinar datos de una red viva o de un archivo de captura salvado en disco. Se puede analizar la información capturada, a través de los detalles y sumarios por cada paquete. Wireshark incluye un completo lenguaje para filtrar lo que queremos ver y la habilidad de mostrar el flujo reconstruido de una sesión de TCP.
+
+\subsection{Instalación}
+\begin{enumerate}
+	\item Scapy
+    	\par La instalación de Scapy se realiza mediante la terminal, en el caso de Ubuntu lo instalaremos con el comando \textbf{“sudo apt-get install python-scapy”}.
+        \par Tras la instalación, ejecutamos Scapy como superusuario con el comando \textbf{“sudo scapy”}.
+    \item Wireshark
+    	\par La instalación de Wireshark, al igual que Scapy, la realizamos a través de la terminal, para esto es necesario ejecutar los siguientes comandos:
+        \begin{itemize}
+			\item sudo add-apt-repository ppa:pi-rho/security
+            \item sudo apt-get update
+			\item sudo apt-get install wireshark
+		\end{itemize}
+\end{enumerate}
+
+\chapter{Creación de paquetes}
+
+\par Para la creación de paquetes utilizaremos Scapy (instalado previamente), para hacer esto debemos seguir los siguientes pasos:
+
+\begin{enumerate}
+	\item Iniciar Scapy
+    	\par Para iniciar Scapy es necesario ejecutar \textbf{"sudo scapy"} en nuestra terminal.
+    \item Posicionamiento en capa 2 (Enlace)
+        \par El comando \textbf{Ether()} nos permite posicionarnos en la capa 2 de nuestro modelo OSI, podemos asignar este comando a una variable, en la cual podremos asignar la dirección MAC de destino y origen que tendrá nuestro paquete. Luego de hacer estas asignaciones podremos revisar los campos con el comando \textbf{"ls(variable)"} 
+       \item Posicionamiento en Capa 3 (Red)
+       	\par El comando \textbf{IP()} es el que nos servirá para posicionarnos en la capa 3 de nuestro modelo OSI, el cual tras ser asignado a una variable nos permita crear y manipular los encabezados IP de nuestro paquete. Tras esto podemos revisar los campos  con el comando \textbf{"ls(variable)"} 
+       \item Posicionamiento en Capa 4 (Transporte)
+       	\par El comando \textbf{ICMP()} es el basado en la capa 4 de nuestro modelo, este nos permitirá administrar información relacionada con errores de los equipos en la red. Asignandolo a una variable podremos configurar los mensajes que mostrará este comando. Al igual en que con los comandos de las capas inferiores, podemos revisar los campos con el comando \textbf{"ls(variable)"}.
+       \item Posicionamiento en capa 7
+       	\par El comando \textbf{Raw()} se basa en un payload para nuestro modelo OSI, el cual nos permitirá ingresar datos a nuestro paquete. Tras ser asignado a una variable podremos revisar los campos con el comando \textbf{"ls(variable)"}.
+       \item Formación del paquete
+       	\par Tras tener creadas las variables que contendrán la información de cada capa, solo nos bastaría concatenarlas, para esto creamos una nueva variable en la cual añadiremos las capas ordenandolas en base al modelo usado.
+        \par Luego podremos revisar el contenido de nuestro paquete con el comando \textbf{display(variable)} el cual nos mostrará la información contenida en cada una de las capas de nuestro paquete.
+       \item Envio paquete
+       	\par Tras creado el paquete, tan solo faltaría enviarlo, para esto hacemos uso del comando \textbf{send(paquete)} en el caso de enviarlo para la capa 3, o el comando \textbf{sendp(paquete)} que sería nuestro caso para enviarlo en capa 2.
+        
+\subsection{Experimento}
+
+\par En esta oportunidad hemos creado con Scapy 3 paquetes del tipo ICMP con las siguientes opciones:
+	\begin{itemize}
+		\item Dirección de MAC de destino FF:FF:FF:FF:FF:FF
+        \\[2ex]
+        \par \includegraphics[scale=0.7]{to_FF}
+        \newpage        
+		\item  Dirección de MAC de destino de otro equipo.
+        \\[2ex]
+        \par \includegraphics[scale=0.7]{otro_pc}
+        \\[2ex]
+		\item Dirección de MAC de destino que no corresponda ningún equipo de la red.
+        \\[2ex]
+        \par \includegraphics[scale=0.7]{otra_red}
+        
+	\end{itemize}
+    
+
+\end{enumerate}
+
+\chapter{Captura de Paquetes}
+	\par Dado que estamos ocupando Scapy, no es necesario ningún software para recibir paquetes si el destino es válido, lo que si es necesario para que podamos trabajar en esta ocasión es el software Wireshark, el cual nos ofrece la capacidad de visualizar cada paquete en el protocolo que queramos y ver su contenido, los pasos a seguir después de la recepción de paquetes será sencilla.
+   \par NOTA: es necesario tener corriendo el programa antes de recibir el paquete para poder observar su contenido, en caso contrario el paquete no habrá sido "capturado" por wireshark y no tendremos acceso a él.
+
+\begin{enumerate}
+	\item Iniciar Wireshark y seleccionar interfaz de red en la cual trabajaremos
+    	\par \includegraphics[scale=0.7]{ini_wireshark}
+        
+        \includegraphics[scale=0.7]{capt_desde}
+    \item Filtrar por ICMP
+    	\par Como dijimos anteriomente, estamos enviando paquetes por Scapy, así que tendremos que ocupar el protocolo ICMP como filtro para ver quién nos está enviando información, así la filtración queda de la siguiente forma:
+        \\[2ex]
+        \par \includegraphics[scale=0.7]{filtro_icmp}
+        \newpage
+    \item Seleccionar paquete
+    	\par Ya este siendo el último paso, damos click en el paquete con dirección de source y/o destino específico que estamos buscando y podemos ver lo que contiene
+        \par \includegraphics[scale=0.7]{contenido_paquete}
+
+\end{enumerate}
+
 \chapter{Cuestionario}
 \begin{enumerate}
 
@@ -35,15 +126,28 @@ lo reciben? ¿Por qué?
 
 Al enviar un paquete con dirección de destino FF:FF:FF:FF:FF:FF, todos los usuarios conectados al switch seran los receptores ya que ésta dirección especial es la reservada en los adaptadores de red para enviar por broadcast a todos los dispositivos conectados a este.
 
-\item¿Qué  pasa  cuando  envió  un  paquete  a  una  MAC  de  otro  equipo?  ¿Quieren  lo pueden reciben? ¿Por qué?
+\item¿Qué  pasa  cuando  envió  un  paquete  a  una  MAC  de  otro  equipo?  ¿Quiénes  lo pueden recibir? ¿Por qué?
 
-Al enviar un paquete a otro equipo, es decir, una MAC válida, éste y solo éste equipo lo recibirá ya que no existe otro dispositivo con la misma dirección.Esto se debe a que en el paquete formado se especifica que dispositivo será el receptor y aunque se encuentre en una red distinta el paquete es capaz de llegar al dispositivo siempre que ambos se encuentren conectados a internet. En caso contrario es necesario que ambos esten en la misma red.
+Al enviar un paquete a otro equipo, es decir, una MAC válida, éste y solo éste equipo lo recibirá ya que no existe otro dispositivo con la misma dirección. Esto se debe a que en el paquete formado se especifica que dispositivo será el receptor y aunque se encuentre en una red distinta el paquete es capaz de llegar al dispositivo siempre que ambos se encuentren conectados a internet. En caso contrario es necesario que ambos esten en la misma red.
 
 \item¿Qué  sucede  si  envía  un  paquete  a  una  MAC  que  no  corresponda  a  ningún  equipo de la red? ¿Quienes lo pueden recepcionar? ¿Por qué?
 
-\chapter{zanganoides}
-Miren sapos culiaos
+Al enviar un paquete a una MAC fuera de la red, en consola se mostrará el mensaje de que el paquete fue enviado correctamente pero no podemos saber si este fue recibido. El receptor podría ser un dispositivo cualquiera o incluso podría no haber un receptor, ya que el dispositivo de red (switch en nuestro caso) ya no se encarga de buscar al dispositvo en cuestión ya que el paquete abandona la red y viaja a través de int
+
+
 
 \end{enumerate}
+\chapter{Conclusión}
+Como hemos podido comprender en este laboratorio, los datos que se transfieren dispositivo a dispositivo dentro de un red, podemos referirnos a ellos como paquetes de datos.
+Estos paquetes de datos se desglosan en capas y cada capa posee distintos parametros entre los cuales podemos distinguir destino, origen, payload, etc.
+Para este laboratorio utilizamos los software Scapy y Wireshark.
+
+Gracias al uso de estas herramientas pudimos realizar una serie de experimentos dentro de la red. Con Scapy pudimos crear paquetes personalizados y enviarlos a un dispositivo en especifico o via broadcast para todos los dispositivos en la red, tambien observamos que pasaba si el destino fuese fuera de la red o si la direccion de origen fuese distinto a la direccion del dispositivo donde se origino el paquete. Estos paquetes creados y todo el trafico en la red pudimos observarlo en tiempo real en el software Wireshark, donde tambien nos fue posible distinguir los distintos parametros de cada paquete como origen y destino, o filtrar la lista segun los protocolos que designemos.
+
+Es por esto y mucho más que estas herramientas son sumamente utiles en el flujo y analisis de paquetes de datos dentro de una red, pero si son usados con malas intenciones es importante el daño que puede lograrse.
+
+%%asi que niños no usen drogas, dejenselas al tio diex 
+
+
 
 \end{document}
